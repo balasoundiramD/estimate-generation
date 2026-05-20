@@ -1545,7 +1545,7 @@ if st.button("Generate Estimates"):
                 start=1
             ):
 
-                st.subheader(brand)
+                #st.subheader(brand)
 
                 brand_df = filtered_df[
 
@@ -1562,22 +1562,22 @@ if st.button("Generate Estimates"):
 
                 )
 
-                st.dataframe(
-                    estimate_df,
-                    use_container_width=True
-                )
+                #st.dataframe(
+                #    estimate_df,
+                #    use_container_width=True
+                #)
 
                 total_amount = (
                     estimate_df["Amount"]
                     .sum()
                 )
 
-                st.success(
+                #st.success(
 
-                    f"Total Amount: "
-                    f"{total_amount:,.2f}"
+                #    f"Total Amount: "
+                #    f"{total_amount:,.2f}"
 
-                )
+                #)
 
                 file_name = (
                     generate_estimate_excel(
@@ -1594,11 +1594,13 @@ if st.button("Generate Estimates"):
                 )
                 generated_files.append(file_name)
 
-                st.success(
-                    f"Excel generated: "
-                    f"{file_name}"
-                )
-
+                #st.success(
+                #    f"Excel generated: "
+                #    f"{file_name}"
+                #)
+            st.success(
+                f"{len(generated_files)} estimate files generated successfully."
+            )
             zip_file_name = "All_Estimates.zip"
 
             with zipfile.ZipFile(zip_file_name, "w") as zipf:
