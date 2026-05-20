@@ -1527,8 +1527,9 @@ if st.button("Generate Estimates"):
 
             ]
 
-            st.success(
-                f"{len(filtered_df)} records found"
+            st.info(
+                f"{len(filtered_df)} records found. "
+                f"Generating estimate files, please wait..."
             )
 
             brands = sorted(
