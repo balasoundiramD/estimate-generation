@@ -1,5 +1,6 @@
 import streamlit as st
 import pandas as pd
+import zipfile
 
 from openpyxl import Workbook
 from openpyxl.styles import (
@@ -1538,7 +1539,7 @@ if st.button("Generate Estimates"):
                 .tolist()
             )
 
-
+            generated_files = []
             for index, brand in enumerate(
                 brands,
                 start=1
@@ -1591,18 +1592,28 @@ if st.button("Generate Estimates"):
 
                     )
                 )
+                generated_files.append(file_name)
 
                 st.success(
                     f"Excel generated: "
                     f"{file_name}"
                 )
-                with open(file_name, "rb") as file:
 
-                    st.download_button(
-                        label=f"Download {file_name}",
-                        data=file,
-                        file_name=file_name,
-                        mime="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
+            zip_file_name = "All_Estimates.zip"
+
+            with zipfile.ZipFile(zip_file_name, "w") as zipf:
+
+                for file in generated_files:
+
+                    zipf.write(file)
+
+            with open(zip_file_name, "rb") as f:
+
+                st.download_button(
+                    label="Download All Estimates",
+                    data=f,
+                    file_name=zip_file_name,
+                    mime="application/zip"
                     )
 
     except Exception as e:
@@ -1610,3 +1621,4 @@ if st.button("Generate Estimates"):
         st.error(
             f"Processing Error: {e}"
         )
+
