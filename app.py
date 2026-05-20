@@ -1596,6 +1596,14 @@ if st.button("Generate Estimates"):
                     f"Excel generated: "
                     f"{file_name}"
                 )
+                with open(file_name, "rb") as file:
+
+                    st.download_button(
+                        label=f"Download {file_name}",
+                        data=file,
+                        file_name=file_name,
+                        mime="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
+                    )
 
     except Exception as e:
 
