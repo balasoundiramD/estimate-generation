@@ -1541,6 +1541,9 @@ if st.button("Generate Estimates"):
             )
 
             generated_files = []
+            summary_data = []
+            grand_total_amount = 0
+
             for index, brand in enumerate(
                 brands,
                 start=1
@@ -1572,6 +1575,12 @@ if st.button("Generate Estimates"):
                     estimate_df["Amount"]
                     .sum()
                 )
+                summary_data.append({
+                    "Brand": brand,
+                    "Amount": total_amount
+                })
+
+                grand_total_amount += total_amount
 
                 #st.success(
 
@@ -1602,6 +1611,33 @@ if st.button("Generate Estimates"):
             st.success(
                 f"{len(generated_files)} estimate files generated successfully."
             )
+            
+            # =========================
+            # SUMMARY EXCEL
+            # =========================
+
+            summary_wb = Workbook()
+            summary_ws = summary_wb.active
+            summary_ws.title = "Summary"
+
+            summary_ws.append(["Brand", "Amount"])
+
+            for row in summary_data:
+                summary_ws.append([
+                    row["Brand"],
+                    row["Amount"]
+                ])
+
+            summary_ws.append([
+                "Grand Total",
+                grand_total_amount
+            ])
+
+            summary_file = "Estimate_Summary.xlsx"
+            summary_wb.save(summary_file)
+
+            generated_files.append(summary_file)
+
             zip_file_name = "All_Estimates.zip"
 
             with zipfile.ZipFile(zip_file_name, "w") as zipf:
